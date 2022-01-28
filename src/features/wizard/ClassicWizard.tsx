@@ -5,6 +5,7 @@ import { HeaderComponent } from "./HeaderComponent";
 import { style } from "@mui/system";
 import { StepComponent } from "./StepComponent";
 import { ParametersComponent } from "./ParametersComponent";
+import YAML from 'yaml';
 
 export type HeaderInput = {
   modelName: string,
@@ -46,26 +47,15 @@ export const ClassicWizard = () => {
   const [header, setHeader] = useState<HeaderInput>();
   const [state, setState] = useState(false);
 
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const [step, setStep] = useState<StepInput>()
   const [steps, setSteps] = useState([] as StepInput[]);
 
 
-  let start = 'model:'
-  let headerName = '\tname:';
-  let headerDesc = '\tdescription:';
-  let headerProject = '\tproject:';
-  let headerType = '\ttype:';
-
-  const createYAML = (title: string, content: string, footer: string ) => {
-    console.log(title, content, footer);
-  }
   const modifyStep = (value: StepInput, index: number) => {
     let newSteps = [...steps];
     newSteps[index] = value;
     setSteps(newSteps);
   }
+
   const addStep = () => {
     (!state)? setState(!state): setState(true);
     
@@ -82,13 +72,15 @@ export const ClassicWizard = () => {
       }],
       paramsNum: 0
     } as StepInput;
-    setStep(item);
     setSteps([...steps, item]);
   }
 
   const done = () => {
     console.log(header);
     console.log(steps);
+    let headerYaml = YAML.stringify(header);
+    let stepsYaml = YAML.stringify(steps);
+    console.log(headerYaml + stepsYaml);
   }
 
   return <Container className={styles.root}>

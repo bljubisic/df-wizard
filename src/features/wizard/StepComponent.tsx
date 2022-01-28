@@ -29,9 +29,7 @@ export const StepComponent = ({
 
   const styles = useStyles();
   const [stateParams, setStateParams] = useState(false);
-  const [currentParam, setCurrentParam] = useState(0);
   const [params, setParams] = useState([] as ParamsInput[]);
-  const [param, setParam] = useState<ParamsInput>();
 
   const addParams = () => {
     (!stateParams)? setStateParams(!stateParams): setStateParams(true);
@@ -43,14 +41,15 @@ export const StepComponent = ({
       min: 0,
       max: 0
     } as ParamsInput;
-    setParam(item);
     setParams([...params, item]);
   }
 
   const modifyParam = (value: ParamsInput, index: number) => {
     let newParams = [...params];
     newParams[index] = value;
+    console.log(newParams);
     setParams(newParams);
+    setStep({...stepInfo, params: newParams as [ParamsInput]}, index);
   }
 
   return <Container>
@@ -90,9 +89,9 @@ export const StepComponent = ({
           Add Parameters
         </Button>
       </Box>}
-      {params.map((param, index) => {
+      {params.map((paramTemp, indexParam) => {
         return <div>
-          <ParametersComponent setParam={modifyParam} paramsInfo={param as ParamsInput} addParams={addParams} index={index} />
+          <ParametersComponent setParam={modifyParam} paramsInfo={paramTemp as ParamsInput} addParams={addParams} index={indexParam}/>
         </div>
       })}
       {stateParams && <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

@@ -11,7 +11,7 @@ export const ParametersComponent = ({
   paramsInfo: ParamsInput,
   setParam: (value: ParamsInput, index: number) => void,
   addParams: () => void,
-  index: number
+  index: number,
 })  => {
 
   return <Container>
