@@ -1,49 +1,147 @@
-import { Input } from "@material-ui/core";
-import Button from "@mui/material/Button";
-import { Box } from "@mui/system";
 import { useState } from "react";
+import { Box, Button, Container, Step } from "@material-ui/core"
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import { HeaderComponent } from "./HeaderComponent";
+import { style } from "@mui/system";
+import { StepComponent } from "./StepComponent";
+import { ParametersComponent } from "./ParametersComponent";
+
+export type HeaderInput = {
+  modelName: string,
+  modelDescription: string,
+  modelProject: string,
+  modelType: string,
+  modelNumber: number
+}
+
+export type StepInput = {
+  name: string,
+  description: string,
+  paramsNum: number,
+  params: [ParamsInput]
+}
+
+export type ParamsInput = {
+  name: string,
+  description: string,
+  type: string,
+  unit: string,
+  min: number,
+  max: number
+}
+
+const useStyles = makeStyles(({ spacing }) => ({
+  root: {
+    marginTop: spacing(2),
+  },
+  stepContainer: {
+    minHeight: 300,
+    flex: 1,
+  },
+}
+));
 
 export const ClassicWizard = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [footer, setFooter] = useState('');
-  const [state, setState] = useState(1);
+  const styles = useStyles();
+  const [header, setHeader] = useState<HeaderInput>();
+  const [state, setState] = useState(false);
 
-  const handleNext = () => {
-    console.log(state);
-    if(state === 3) {
-      setState(1);
-    } else {
-      setState(state + 1);
-    }
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const [step, setStep] = useState<StepInput>()
+  const [steps, setSteps] = useState([] as StepInput[]);
+
+
+  let start = 'model:'
+  let headerName = '\tname:';
+  let headerDesc = '\tdescription:';
+  let headerProject = '\tproject:';
+  let headerType = '\ttype:';
+
+  const createYAML = (title: string, content: string, footer: string ) => {
+    console.log(title, content, footer);
+  }
+  const modifyStep = (value: StepInput, index: number) => {
+    let newSteps = [...steps];
+    newSteps[index] = value;
+    setSteps(newSteps);
+  }
+  const addStep = () => {
+    (!state)? setState(!state): setState(true);
+    
+    let item = {
+      name: '',
+      description: '',
+      params: [{
+        name: '',
+        description: '',
+        type: '',
+        unit: '',
+        min: 0,
+        max: 0
+      }],
+      paramsNum: 0
+    } as StepInput;
+    setStep(item);
+    setSteps([...steps, item]);
   }
 
-  return (<div>
-      {state === 1 && (<div>
-        <Input type="text" onChange={e => setTitle(e.target.value)}/>
-      </div>)}
-      {state !== 1 && state !== 0 && (<div>
-          <label>{title}</label>
+  const done = () => {
+    console.log(header);
+    console.log(steps);
+  }
+
+  return <Container className={styles.root}>
+    <HeaderComponent setHeader={setHeader} headerInfo={header as HeaderInput}/>
+    {state && (
+    <div>
+      {steps.map((stepTemp, index) => {
+        return <div>
+          <StepComponent setStep={modifyStep} stepInfo={stepTemp as StepInput} addStep={addStep} index={index} />
         </div>
-      )}
-      {state === 2 && (<div>
-        <Input type="text" onChange={e => setContent(e.target.value)}/>
-      </div>)}
-      {state !== 2 && state !== 0 && (<div>
-          <label>{content}</label>
-        </div>
-      )}
-      {state === 3 && (<div>
-        <Input type="text" onChange={e => setFooter(e.target.value)}/>
-      </div>)}
-      {state !== 3 && state !== 0 && (<div>
-          <label>{footer}</label>
-        </div>
-      )}
+      })}
+    </div>
+    )}
+    <div>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={() => {handleNext();}}>
-          {state === 3 ? 'Finish' : 'Next'}
-        </Button>
+        {!state && (<Button onClick={() => {addStep();}}>
+          Next
+        </Button>)}
       </Box>
-  </div>);
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {state && (<Button onClick={() => {done();}}>
+          Done
+        </Button>)}
+      </Box>
+    </div>
+  </Container>
+
+  // return <div>
+  //     {state === 1 && (<div>
+  //       <Input type="text" onChange={e => setTitle(e.target.value)}/>
+  //     </div>)}
+  //     {state !== 1 && state !== 0 && (<div>
+  //         <label>{title}</label>
+  //       </div>
+  //     )}
+  //     {state === 2 && (<div>
+  //       <Input type="text" onChange={e => setContent(e.target.value)}/>
+  //     </div>)}
+  //     {state !== 2 && state !== 0 && (<div>
+  //         <label>{content}</label>
+  //       </div>
+  //     )}
+  //     {state === 3 && (<div>
+  //       <Input type="text" onChange={e => setFooter(e.target.value)}/>
+  //     </div>)}
+  //     {state !== 3 && state !== 0 && (<div>
+  //         <label>{footer}</label>
+  //       </div>
+  //     )}
+  //     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+  //       <Button onClick={() => {handleNext();}}>
+  //         {state === 3 ? 'Finish' : 'Next'}
+  //       </Button>
+  //     </Box>
+  // </div>;
 };
