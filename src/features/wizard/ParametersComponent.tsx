@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Button, Container, Grid, TextField } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
 import theme from "../../theme";
 import { ParamsInput } from "./ClassicWizard";
 

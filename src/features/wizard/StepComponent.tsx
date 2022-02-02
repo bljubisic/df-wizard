@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { Box, Button, Container, Grid, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, Container, Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import theme from "../../theme";
 import { ParamsInput, StepInput } from "./ClassicWizard";
