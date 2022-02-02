@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Box, Button, Container, Step } from "@material-ui/core"
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import { HeaderComponent } from "./HeaderComponent";
-import { style } from "@mui/system";
-import { StepComponent } from "./StepComponent";
-import { ParametersComponent } from "./ParametersComponent";
 import YAML from 'yaml';
+import { makeStyles } from "@mui/styles";
+import { Box, Button, Container } from "@mui/material";
+import { spacing } from "@mui/system";
+import { ModelsComponent } from "./ModelsComponent";
 
 export type HeaderInput = {
   modelName: string,
@@ -31,9 +30,23 @@ export type ParamsInput = {
   max: number
 }
 
-const useStyles = makeStyles(({ spacing }) => ({
+export type ModelsInput = {
+  name: string,
+  description: string,
+  files: [string],
+  modelType: ModelType,
+  steps: [StepInput]
+}
+
+export type ModelType = {
+  name: string,
+  abbrevation: string,
+  description: string
+}
+
+const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: spacing(2),
+    marginTop: spacing({m: 2}),
   },
   stepContainer: {
     minHeight: 300,
@@ -46,57 +59,62 @@ export const ClassicWizard = () => {
   const styles = useStyles();
   const [header, setHeader] = useState<HeaderInput>();
   const [state, setState] = useState(false);
+  const [editHeader, setEditHeader] = useState(true);
+  const [models, setModels] = useState([] as ModelsInput[]);
 
-  const [steps, setSteps] = useState([] as StepInput[]);
 
-
-  const modifyStep = (value: StepInput, index: number) => {
-    let newSteps = [...steps];
-    newSteps[index] = value;
-    setSteps(newSteps);
+  const modifyModels = (value: ModelsInput, index: number) => {
+    let newModels = [...models];
+    newModels[index] = value;
+    setModels(newModels);
   }
 
-  const addStep = () => {
+  const addModel = () => {
+    setEditHeader(!editHeader);
     (!state)? setState(!state): setState(true);
-    
-    let item = {
-      name: '',
-      description: '',
-      params: [{
+
+    let model = {
+      name: 'name',
+      description: 'description',
+      files: ['file1'] as string[],
+      modelType: {
         name: '',
-        description: '',
-        type: '',
-        unit: '',
-        min: 0,
-        max: 0
-      }],
-      paramsNum: 0
-    } as StepInput;
-    setSteps([...steps, item]);
+        abbrevation: '',
+        description: ''
+      } as ModelType,
+      steps: [] as StepInput[]
+    } as ModelsInput;
+
+    setModels([...models, model]);
   }
 
   const done = () => {
-    console.log(header);
-    console.log(steps);
-    let headerYaml = YAML.stringify(header);
-    let stepsYaml = YAML.stringify(steps);
-    console.log(headerYaml + stepsYaml);
+    const model = {
+      name: header?.modelName,
+      description: header?.modelDescription,
+      project: header?.modelProject,
+      type: header?.modelType,
+      models: models
+    }
+    console.log(model);
+    let modelYaml = YAML.stringify(model);
+    console.log(modelYaml);
   }
 
   return <Container className={styles.root}>
-    <HeaderComponent setHeader={setHeader} headerInfo={header as HeaderInput}/>
+    <HeaderComponent setHeader={setHeader} headerInfo={header as HeaderInput} editHeader={editHeader}/>
     {state && (
     <div>
-      {steps.map((stepTemp, index) => {
+      {models.map((modelTemp, index) => {
         return <div>
-          <StepComponent setStep={modifyStep} stepInfo={stepTemp as StepInput} addStep={addStep} index={index} />
+          <ModelsComponent setModels={modifyModels} modelsInfo={modelTemp as ModelsInput} addModels={addModel} index={index}/>
         </div>
       })}
     </div>
     )}
     <div>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        {!state && (<Button onClick={() => {addStep();}}>
+        {!state && (<Button onClick={() => {addModel();}}>
           Next
         </Button>)}
       </Box>
@@ -107,33 +125,4 @@ export const ClassicWizard = () => {
       </Box>
     </div>
   </Container>
-
-  // return <div>
-  //     {state === 1 && (<div>
-  //       <Input type="text" onChange={e => setTitle(e.target.value)}/>
-  //     </div>)}
-  //     {state !== 1 && state !== 0 && (<div>
-  //         <label>{title}</label>
-  //       </div>
-  //     )}
-  //     {state === 2 && (<div>
-  //       <Input type="text" onChange={e => setContent(e.target.value)}/>
-  //     </div>)}
-  //     {state !== 2 && state !== 0 && (<div>
-  //         <label>{content}</label>
-  //       </div>
-  //     )}
-  //     {state === 3 && (<div>
-  //       <Input type="text" onChange={e => setFooter(e.target.value)}/>
-  //     </div>)}
-  //     {state !== 3 && state !== 0 && (<div>
-  //         <label>{footer}</label>
-  //       </div>
-  //     )}
-  //     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-  //       <Button onClick={() => {handleNext();}}>
-  //         {state === 3 ? 'Finish' : 'Next'}
-  //       </Button>
-  //     </Box>
-  // </div>;
 };

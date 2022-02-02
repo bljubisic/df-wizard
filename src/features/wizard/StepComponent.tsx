@@ -1,18 +1,9 @@
-import { Box, Button, Container, Grid, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
-import { Dispatch, SetStateAction, useState } from "react";
+import { ThemeProvider } from "@emotion/react";
+import { Box, Button, Container, Grid, MenuItem, Select, TextField } from "@mui/material";
+import { useState } from "react";
+import theme from "../../theme";
 import { ParamsInput, StepInput } from "./ClassicWizard";
 import { ParametersComponent } from "./ParametersComponent";
-
-const useStyles = makeStyles(({ spacing }) => ({
-  root: {
-    marginTop: spacing(2),
-  },
-  stepContainer: {
-    minHeight: 300,
-    flex: 1,
-  },
-}
-));
 
 export const StepComponent = ({
   stepInfo, 
@@ -27,7 +18,6 @@ export const StepComponent = ({
   }
 ) => {
 
-  const styles = useStyles();
   const [stateParams, setStateParams] = useState(false);
   const [params, setParams] = useState([] as ParamsInput[]);
 
@@ -47,58 +37,48 @@ export const StepComponent = ({
   const modifyParam = (value: ParamsInput, index: number) => {
     let newParams = [...params];
     newParams[index] = value;
-    console.log(newParams);
     setParams(newParams);
     setStep({...stepInfo, params: newParams as [ParamsInput]}, index);
   }
 
-  return <Container>
-    <Grid container spacing={2}>
-      <Grid item sm={12} md={4}>
-        <TextField
-          required
-          onChange={(e) => setStep({...stepInfo, name: e.target.value}, index)}
-          type="text"
-          label="Name"
-          variant="outlined"
-        />
+  return <ThemeProvider theme={theme}>
+    <Container sx={{mt: 1}}>
+      <Grid container spacing={2}>
+        <Grid item sm={12} md={4}>
+          <TextField
+            required
+            fullWidth
+            onChange={(e) => setStep({...stepInfo, name: e.target.value}, index)}
+            type="text"
+            label="Name"
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item sm={12} md={8}>
+          <TextField
+            type="text"
+            fullWidth
+            onChange={(e) => setStep({...stepInfo, description: e.target.value}, index)}
+            label="Description"
+            variant="outlined"
+          />
+        </Grid>
+        {!stateParams && <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={() => {addParams();}}>
+            Add Parameters
+          </Button>
+        </Box>}
+        {params.map((paramTemp, indexParam) => {
+          return <div>
+            <ParametersComponent setParam={modifyParam} paramsInfo={paramTemp as ParamsInput} addParams={addParams} index={indexParam}/>
+          </div>
+        })}
+        {stateParams && <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={() => {addStep();}}>
+            Add Step
+          </Button>
+        </Box>}
       </Grid>
-      <Grid item sm={12} md={4}>
-        <TextField
-          type="text"
-          onChange={(e) => setStep({...stepInfo, description: e.target.value}, index)}
-          label="Description"
-          variant="outlined"
-        />
-      </Grid>
-      <Grid item sm={12} md={4}>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={stepInfo ? stepInfo.paramsNum : 1}
-          label="Age"
-          onChange={(e) => setStep({...stepInfo, paramsNum: Number(e.target.value)}, index)}
-        >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-        </Select>
-      </Grid>
-      {!stateParams && <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={() => {addParams();}}>
-          Add Parameters
-        </Button>
-      </Box>}
-      {params.map((paramTemp, indexParam) => {
-        return <div>
-          <ParametersComponent setParam={modifyParam} paramsInfo={paramTemp as ParamsInput} addParams={addParams} index={indexParam}/>
-        </div>
-      })}
-      {stateParams && <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={() => {addStep();}}>
-          Add Step
-        </Button>
-      </Box>}
-    </Grid>
-  </Container>
+    </Container>
+    </ThemeProvider>
 }
