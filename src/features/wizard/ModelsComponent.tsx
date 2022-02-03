@@ -24,16 +24,16 @@ export const ModelsComponent = ({
   const addFiles = () => {
     setFiles([...files, '']);
   }
-  const modifyFiles = (value: string, index: number) => {
+  const modifyFiles = (value: string, indexFiles: number) => {
     const newFiles = [...files];
-    newFiles[index] = value;
+    newFiles[indexFiles] = value;
     setFiles(newFiles);
     setModels({...modelsInfo, files: newFiles as [string]}, index);
   }
 
-  const modifyStep = (value: StepInput, index: number) => {
-    let newSteps = [...steps];
-    newSteps[index] = value;
+  const modifyStep = (value: StepInput, indexStep: number) => {
+    const newSteps = [...steps];
+    newSteps[indexStep] = value;
     setSteps(newSteps as [StepInput]);
     setModels({...modelsInfo, steps: newSteps as [StepInput]}, index);
   }
@@ -41,8 +41,7 @@ export const ModelsComponent = ({
   const addStep = () => {
     setEditModels(false);
     (!state)? setState(!state): setState(true);
-    
-    let item = {
+    const item = {
       name: '',
       description: '',
       params: [{
@@ -96,7 +95,7 @@ export const ModelsComponent = ({
                 Add
               </Button>
             </Box>
-          </Grid>  
+          </Grid>
         </Grid>
         <Grid container spacing={2} sx={{mt: 1}}>
           <Grid item xs>
@@ -141,7 +140,7 @@ export const ModelsComponent = ({
             return <Grid item xs>
               <label>{file}</label>
             </Grid>
-          })} 
+          })}
         </Grid>
         <Grid container spacing={2} sx={{mt: 1}}>
           <Grid item xs>

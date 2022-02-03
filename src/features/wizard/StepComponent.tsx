@@ -6,7 +6,7 @@ import { ParamsInput, StepInput } from "./ClassicWizard";
 import { ParametersComponent } from "./ParametersComponent";
 
 export const StepComponent = ({
-  stepInfo, 
+  stepInfo,
   setStep,
   addStep,
   index
@@ -23,7 +23,7 @@ export const StepComponent = ({
 
   const addParams = () => {
     (!stateParams)? setStateParams(!stateParams): setStateParams(true);
-    let item = {
+    const item = {
       name: '',
       description: '',
       type: '',
@@ -34,9 +34,9 @@ export const StepComponent = ({
     setParams([...params, item]);
   }
 
-  const modifyParam = (value: ParamsInput, index: number) => {
-    let newParams = [...params];
-    newParams[index] = value;
+  const modifyParam = (value: ParamsInput, indexParam: number) => {
+    const newParams = [...params];
+    newParams[indexParam] = value;
     setParams(newParams);
     setStep({...stepInfo, params: newParams as [ParamsInput]}, index);
   }

@@ -64,7 +64,7 @@ export const ClassicWizard = () => {
 
 
   const modifyModels = (value: ModelsInput, index: number) => {
-    let newModels = [...models];
+    const newModels = [...models];
     newModels[index] = value;
     setModels(newModels);
   }
@@ -73,7 +73,7 @@ export const ClassicWizard = () => {
     setEditHeader(!editHeader);
     (!state)? setState(!state): setState(true);
 
-    let model = {
+    const model = {
       name: 'name',
       description: 'description',
       files: ['file1'] as string[],
@@ -94,10 +94,12 @@ export const ClassicWizard = () => {
       description: header?.modelDescription,
       project: header?.modelProject,
       type: header?.modelType,
-      models: models
+      models
     }
+    // tslint:disable-next-line: no-console
     console.log(model);
-    let modelYaml = YAML.stringify(model);
+    const modelYaml = YAML.stringify(model);
+    // tslint:disable-next-line: no-console
     console.log(modelYaml);
   }
 
