@@ -27,7 +27,7 @@ export const HeaderComponent = ({
 }) => {
   const style = useStyles();
   return <ThemeProvider theme={theme}>
-    <Container sx={{m: 2}}>
+    <Container sx={{mt: 2, mb: 2}}>
       {editHeader && (<Grid container spacing={2} columns={16}>
         <Grid item xs>
           <TextField

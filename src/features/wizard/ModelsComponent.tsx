@@ -58,7 +58,7 @@ export const ModelsComponent = ({
   }
 
   return <ThemeProvider theme={theme}>
-    <Container sx={{m: 2}}>
+    <Container sx={{m: 2, border: 1, borderRadius: 5}}>
       {editModels && (<Grid container spacing={2} columns={16} sx={{mt: 2}}>
         <Grid item xs>
           <TextField

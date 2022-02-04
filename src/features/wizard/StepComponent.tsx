@@ -42,8 +42,8 @@ export const StepComponent = ({
   }
 
   return <ThemeProvider theme={theme}>
-    <Container sx={{mt: 1}}>
-      <Grid container spacing={2}>
+    <Container sx={{mt: 1, mb: 2, border: 1, borderRadius: 5}}>
+      <Grid container spacing={2} sx={{mt: 1}}>
         <Grid item sm={12} md={4}>
           <TextField
             required
