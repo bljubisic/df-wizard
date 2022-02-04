@@ -3,7 +3,6 @@ import { HeaderComponent } from "./HeaderComponent";
 import YAML from 'yaml';
 import { makeStyles } from "@mui/styles";
 import { Box, Button, Container } from "@mui/material";
-import { spacing } from "@mui/system";
 import { ModelsComponent } from "./ModelsComponent";
 
 export type HeaderInput = {
