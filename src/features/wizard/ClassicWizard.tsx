@@ -46,8 +46,6 @@ export type ModelType = {
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 10,
-    border: 1,
-    borderRadius: 5
   },
   stepContainer: {
     minHeight: 300,
@@ -104,7 +102,7 @@ export const ClassicWizard = () => {
     console.log(modelYaml);
   }
 
-  return <Container className={styles.root} sx={{border: 1, borderRadius: 5}}>
+  return <Container className={styles.root} sx={{p: 2, border: 1, borderRadius: 5}}>
     <HeaderComponent setHeader={setHeader} headerInfo={header as HeaderInput} editHeader={editHeader}/>
     {state && (
     <div>

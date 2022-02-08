@@ -64,7 +64,7 @@ export const HeaderComponent = ({
           />
         </Grid>
       </Grid>)}
-      {!editHeader && headerInfo && (<Grid container spacing={2} columns={16}>
+      {!editHeader && headerInfo && (<Grid container spacing={2} columns={16} sx={{p: 1, border: 1, borderRadius: 5}}>
         <Grid item xs>
           <label className={style.name}>{headerInfo.modelName}</label>
         </Grid>
