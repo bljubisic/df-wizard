@@ -2,7 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, Button, Container, Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import theme from "../../theme";
-import { ParamsInput, StepInput } from "./ClassicWizard";
+import { ParamsInput, StepInput } from "../../types/Types";
 import { ParametersComponent } from "./ParametersComponent";
 
 export const StepComponent = ({

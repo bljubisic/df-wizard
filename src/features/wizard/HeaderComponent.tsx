@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/private-theming";
 import { makeStyles } from "@mui/styles";
 import { Dispatch, SetStateAction} from "react"
 import theme from "../../theme";
-import { HeaderInput } from "./ClassicWizard"
+import { HeaderInput } from "../../types/Types";
 
 const useStyles = makeStyles(() => ({
   name: {

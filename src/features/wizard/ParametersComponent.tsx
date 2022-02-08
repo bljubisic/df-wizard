@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Button, Container, Grid, TextField } from "@mui/material";
 import theme from "../../theme";
-import { ParamsInput } from "./ClassicWizard";
+import { ParamsInput } from "../../types/Types";
 
 export const ParametersComponent = ({
   paramsInfo,

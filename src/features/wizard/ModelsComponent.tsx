@@ -1,9 +1,9 @@
-import {ModelsInput, StepInput} from './ClassicWizard';
 import { ThemeProvider } from "@mui/private-theming";
 import theme from '../../theme';
 import { Box, Button, Container, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 import { StepComponent } from './StepComponent';
+import { ModelsInput, StepInput } from "../../types/Types";
 
 export const ModelsComponent = ({
   modelsInfo,
